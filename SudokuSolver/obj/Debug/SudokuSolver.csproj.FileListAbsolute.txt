@@ -1,6 +1,0 @@
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\obj\Debug\SudokuSolver.csprojResolveAssemblyReference.cache
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\bin\Debug\SudokuSolver.exe.config
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\bin\Debug\SudokuSolver.exe
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\bin\Debug\SudokuSolver.pdb
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\obj\Debug\SudokuSolver.exe
-C:\Users\Sintae\Documents\Visual Studio 2017\Projects\SudokuSolverCSharp\SudokuSolver\obj\Debug\SudokuSolver.pdb
