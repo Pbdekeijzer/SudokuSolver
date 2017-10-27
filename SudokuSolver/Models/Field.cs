@@ -8,18 +8,19 @@ namespace SudokuSolver.Models
 {
     public class Field
     {
-        public Field(int number, Row row, Column column)
+        public Field(int number, Row row, Column column, Square square)
         {
             Row = row;
             Column = column;
+            Square = square;
             Number = number;
             PossibleNumbers = (number != 0) ? new List<int> { number } : new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             Solved = false; // Solved is false even if number != 0, because it still needs to remove values from other possiblevalue fields before it is solved.
         }
 
-        public Square Square { get; set; }
-        public Row Row { get; set; }
-        public Column Column { get; set; }
+        public Square Square { get; private set; }
+        public Row Row { get; private set; }
+        public Column Column { get; private set; }
         public List<int> PossibleNumbers { get; set; }
         public int Number { get; set; }
         public bool Solved { get; set; }

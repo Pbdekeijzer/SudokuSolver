@@ -26,14 +26,12 @@ namespace SudokuSolver.Logic
                 int rowIndex = Convert.ToInt32(Math.Floor((double)i / 9));
                 int squareIndex = GetSquareIndex(rowIndex, columnIndex);
 
-                var field = new Field(sudoku.ElementAt(i), rowsArray[rowIndex], columnsArray[columnIndex]);
+                var field = new Field(sudoku.ElementAt(i), rowsArray[rowIndex], columnsArray[columnIndex], squaresArray[squareIndex]);
                 fields.Add(field);
 
                 rowsArray[rowIndex].Fields.Add(field);
                 columnsArray[columnIndex].Fields.Add(field);
                 squaresArray[squareIndex].Fields.Add(field);
-
-                field.Square = squaresArray[squareIndex];
             }
 
             List<Row> rows = rowsArray.ToList();
@@ -66,14 +64,12 @@ namespace SudokuSolver.Logic
                 {
                     int squareIndex = GetSquareIndex(i, j);
 
-                    var field = new Field(matrix[i][j], rowsArray[i], columnsArray[j]);
+                    var field = new Field(matrix[i][j], rowsArray[i], columnsArray[j], squaresArray[squareIndex]);
                     fields.Add(field);
 
                     rowsArray[i].Fields.Add(field);
                     columnsArray[j].Fields.Add(field);
                     squaresArray[squareIndex].Fields.Add(field);
-
-                    field.Square = squaresArray[squareIndex];
                 }
             }
 
