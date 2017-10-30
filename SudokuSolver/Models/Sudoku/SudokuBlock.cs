@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace SudokuSolver.Models
 {
-    public abstract class Block<T>
+    public abstract class SudokuBlock : Block<int>
     {
-        public List<Field<T>> Fields { get; set; }
     }
 }

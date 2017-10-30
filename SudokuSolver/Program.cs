@@ -1,5 +1,5 @@
-﻿using SudokuSolver.Logic;
-using SudokuSolver.Models;
+﻿using SudokuSolver.Models;
+using SudokuSolver.PuzzleBuilders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,9 +26,8 @@ namespace SudokuSolver
                     new int[] {1,0,0,7,0,8,0,0,6}
                 };
 
-            var sudoku = BuildSudoku.Build(matrix);
-
-            SolveSudoku.Solve(sudoku);
+            Sudoku sudoku = SudokuBuilder.Build(matrix);
+            sudoku.Solve();
 
             sudoku.Print();
         

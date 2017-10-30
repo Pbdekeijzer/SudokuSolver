@@ -1,43 +1,45 @@
 ﻿using SudokuSolver.Models;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SudokuSolver.Logic
+namespace SudokuSolver.PuzzleSolvers
 {
-    public static class SolveSudoku
+    public static class SudokuSolver
     {
         public static void Solve(Sudoku sudoku)
-        {          
+        {
             // While not all fields are solved...
             while (sudoku.Fields.Count(x => x.Solved) != 81)
             {
-                foreach (Field field in sudoku.Fields.Where(x => !x.Solved).OrderBy(x => x.PossibleNumbers.Count))
+                foreach (SudokuField field in sudoku.Fields.Where(x => !x.Solved).OrderBy(x => x.PossibleNumbers.Count))
                 {
                     // Has only one possible number left.
                     if (field.PossibleNumbers.Count == 1)
                     {
-                        UpdateField(field, field.PossibleNumbers.First(), new List<int> { field.PossibleNumbers.First() });                     
+                        Update(field, field.PossibleNumbers.First(), new List<int> { field.PossibleNumbers.First() });
                         continue;
                     }
                     CheckIfUniquePossibleNumbers(field);
                     continue;
-                }              
+                }
             }
             System.Console.WriteLine("Sudoku solved");
         }
 
-        private static void UpdateField(Field field, int number, List<int> possibleNumbers)
+        private static void Update(SudokuField field, int number, List<int> possibleNumbers)
         {
-            field.Number = number;
+            field.Value = number;
             RemovePossibleNumbersFromFieldBlocks(field, number);
             field.PossibleNumbers = possibleNumbers;
             field.Solved = true;
         }
 
         // Checks if any of the possible numbers from a field is unique in it's row, square or column.
-        private static void CheckIfUniquePossibleNumbers(Field field)
-        {          
+        private static void CheckIfUniquePossibleNumbers(SudokuField field)
+        {
             if (UniquePossibleNumbersInBlock(field.Square, field))
                 return;
             else if (UniquePossibleNumbersInBlock(field.Column, field))
@@ -46,33 +48,33 @@ namespace SudokuSolver.Logic
 
         }
 
-        private static bool UniquePossibleNumbersInBlock(Block block, Field field)
+        private static bool UniquePossibleNumbersInBlock(SudokuBlock block, SudokuField field)
         {
             foreach (int number in field.PossibleNumbers)
             {
-                if (block.Fields.Count(x => x.PossibleNumbers.Contains(number)) == 1)
+                if (block.Fields.Count(x => ((SudokuField)x).PossibleNumbers.Contains(number)) == 1)
                 {
-                    UpdateField(field, number, new List<int> { number });
+                    Update(field, number, new List<int> { number });
                     return true;
                 }
             }
             return false;
         }
 
-        private static void RemovePossibleNumbersFromFieldBlocks(Field field, int number)
+        private static void RemovePossibleNumbersFromFieldBlocks(SudokuField field, int number)
         {
             RemovePossibleNumbers(field.Row, field, number);
             RemovePossibleNumbers(field.Square, field, number);
             RemovePossibleNumbers(field.Column, field, number);
         }
 
-        private static void RemovePossibleNumbers(Block block, Field field, int number)
-        {          
-            foreach(var _field in block.Fields)
+        private static void RemovePossibleNumbers(SudokuBlock block, SudokuField field, int number)
+        {
+            foreach (var _field in block.Fields)
             {
                 if (_field != field)
                 {
-                    _field.PossibleNumbers.Remove(number);
+                    ((SudokuField)_field).PossibleNumbers.Remove(number);
                 }
             }
         }

@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 
 namespace SudokuSolver.Models
 {
-    public class Square : Block, IPrintable
+    public class Square : SudokuBlock, IPrintable
     {
         public Square()
         {
-            Fields = new List<Field>();
+            Fields = new List<Field<int>>();
         }
 
         public void Print()
         {
-            for (int i = 0; i < Fields.Count; i++)
+            var fieldsArray = Fields.ToArray();
+            for (int i = 0; i < Fields.Count(); i++)
             {
                 if (i == 2 || i == 5)
-                    Console.WriteLine($"{Fields[i].Number}, ");          
+                    Console.WriteLine($"{fieldsArray[i].Value}, ");
                 else
-                    Console.Write($"{Fields[i].Number}, ");
+                    Console.Write($"{fieldsArray[i].Value}, ");
             }
         }
     }

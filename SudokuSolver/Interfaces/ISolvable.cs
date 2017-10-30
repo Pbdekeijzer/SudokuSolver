@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SudokuSolver.Models
+namespace SudokuSolver.Interfaces
 {
-    public abstract class Field<T>
+    public interface ISolvable
     {
-        public T Value { get; set; }
+        void Solve();
     }
 }

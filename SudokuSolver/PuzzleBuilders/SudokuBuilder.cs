@@ -5,28 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SudokuSolver.Logic
+namespace SudokuSolver.PuzzleBuilders
 {
-    public static class BuildSudoku
+    public static class SudokuBuilder
     {
         public static Sudoku Build(IEnumerable<int> sudoku)
         {
-            var fields = new List<Field>();
-            var columnsArray = new Column[9];
-            var rowsArray = new Row[9];
-            var squaresArray = new Square[9];
+            var fields = new List<SudokuField>();
+            var columnsArray = new SudokuBlock[9];
+            var rowsArray = new SudokuBlock[9];
+            var squaresArray = new SudokuBlock[9];
 
-            Initialize(columnsArray);
-            Initialize(rowsArray);
-            Initialize(squaresArray);
+            Initialize<Column>(columnsArray);
+            Initialize<Row>(rowsArray);
+            Initialize<Square>(squaresArray);
 
             for (int i = 0; i < 81; i++)
             {
                 int columnIndex = i % 9;
                 int rowIndex = Convert.ToInt32(Math.Floor((double)i / 9));
                 int squareIndex = GetSquareIndex(rowIndex, columnIndex);
+                int number = sudoku.ElementAt(i);
 
-                var field = new Field(sudoku.ElementAt(i), rowsArray[rowIndex], columnsArray[columnIndex], squaresArray[squareIndex]);
+                var field = new SudokuField(number, rowsArray[rowIndex], columnsArray[columnIndex], squaresArray[squareIndex], false)
+                {
+                    PossibleNumbers = (number != 0) ? new List<int> { number } : new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                };
+
                 fields.Add(field);
 
                 rowsArray[rowIndex].Fields.Add(field);
@@ -34,9 +39,9 @@ namespace SudokuSolver.Logic
                 squaresArray[squareIndex].Fields.Add(field);
             }
 
-            List<Row> rows = rowsArray.ToList();
-            List<Column> columns = columnsArray.ToList();
-            List<Square> squares = squaresArray.ToList();
+            List<SudokuBlock> rows = rowsArray.ToList();
+            List<SudokuBlock> columns = columnsArray.ToList();
+            List<SudokuBlock> squares = squaresArray.ToList();
 
             return new Sudoku
             {
@@ -49,22 +54,27 @@ namespace SudokuSolver.Logic
 
         public static Sudoku Build(int[][] matrix)
         {
-            var fields = new List<Field>();
-            var columnsArray = new Column[9];
-            var rowsArray = new Row[9];
-            var squaresArray = new Square[9];
+            var fields = new List<SudokuField>();
+            var columnsArray = new SudokuBlock[9];
+            var rowsArray = new SudokuBlock[9];
+            var squaresArray = new SudokuBlock[9];
 
-            Initialize(columnsArray);
-            Initialize(rowsArray);
-            Initialize(squaresArray);
+            Initialize<Column>(columnsArray);
+            Initialize<Row>(rowsArray);
+            Initialize<Square>(squaresArray);
 
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
                     int squareIndex = GetSquareIndex(i, j);
+                    int number = matrix[i][j];
 
-                    var field = new Field(matrix[i][j], rowsArray[i], columnsArray[j], squaresArray[squareIndex]);
+                    var field = new SudokuField(number, rowsArray[i], columnsArray[j], squaresArray[squareIndex], false)
+                    {
+                        PossibleNumbers = (number != 0) ? new List<int> { number } : new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                    };
+
                     fields.Add(field);
 
                     rowsArray[i].Fields.Add(field);
@@ -73,10 +83,10 @@ namespace SudokuSolver.Logic
                 }
             }
 
-            List<Row> rows = rowsArray.ToList();
-            List<Column> columns = columnsArray.ToList();
-            List<Square> squares = squaresArray.ToList();
-     
+            List<SudokuBlock> rows = rowsArray.ToList();
+            List<SudokuBlock> columns = columnsArray.ToList();
+            List<SudokuBlock> squares = squaresArray.ToList();
+
             return new Sudoku
             {
                 Rows = rows,
@@ -108,7 +118,7 @@ namespace SudokuSolver.Logic
             return squareIndex;
         }
 
-        private static void Initialize<T>(T[] arrayOfObjects) where T : new()
+        private static void Initialize<T>(object[] arrayOfObjects) where T : new()
         {
             for (int i = 0; i < arrayOfObjects.Count(); i++)
             {

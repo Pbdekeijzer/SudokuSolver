@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace SudokuSolver.Models
 {
-    public class Row : Block, IPrintable
+    public class Column : SudokuBlock, IPrintable
     {
-        public Row()
+        public Column()
         {
-            Fields = new List<Field>();
+            Fields = new List<Field<int>>();
         }
 
         public void Print()
         {
-            foreach(Field field in Fields)
+            foreach(Field<int> field in Fields)
             {
-                Console.Write($"{field.Number}, ");
+                Console.WriteLine($"{field.Value}, ");
             }
         }
     }
