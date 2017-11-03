@@ -19,22 +19,13 @@ namespace SudokuSolver.PuzzleSolvers
                     // Has only one possible number left.
                     if (field.PossibleNumbers.Count == 1)
                     {
-                        Update(field, field.PossibleNumbers.First(), new List<int> { field.PossibleNumbers.First() });
+                        field.Update(field.PossibleNumbers.First());
                         continue;
                     }
                     CheckIfUniquePossibleNumbers(field);
-                    continue;
                 }
             }
-            System.Console.WriteLine("Sudoku solved");
-        }
-
-        private static void Update(SudokuField field, int number, List<int> possibleNumbers)
-        {
-            field.Value = number;
-            RemovePossibleNumbersFromFieldBlocks(field, number);
-            field.PossibleNumbers = possibleNumbers;
-            field.Solved = true;
+            Console.WriteLine("Sudoku solved");
         }
 
         // Checks if any of the possible numbers from a field is unique in it's row, square or column.
@@ -54,29 +45,11 @@ namespace SudokuSolver.PuzzleSolvers
             {
                 if (block.Fields.Count(x => ((SudokuField)x).PossibleNumbers.Contains(number)) == 1)
                 {
-                    Update(field, number, new List<int> { number });
+                    field.Update(number);
                     return true;
                 }
             }
             return false;
-        }
-
-        private static void RemovePossibleNumbersFromFieldBlocks(SudokuField field, int number)
-        {
-            RemovePossibleNumbers(field.Row, field, number);
-            RemovePossibleNumbers(field.Square, field, number);
-            RemovePossibleNumbers(field.Column, field, number);
-        }
-
-        private static void RemovePossibleNumbers(SudokuBlock block, SudokuField field, int number)
-        {
-            foreach (var _field in block.Fields)
-            {
-                if (_field != field)
-                {
-                    ((SudokuField)_field).PossibleNumbers.Remove(number);
-                }
-            }
         }
     }
 }

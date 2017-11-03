@@ -46,7 +46,7 @@
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\Sudoku\Column.cs" />
     <Compile Include="Interfaces\IPrintable.cs" />
-    <Compile Include="Models\Field.cs" />
+    <Compile Include="Interfaces\IField.cs" />
     <Compile Include="Models\Sudoku\Row.cs" />
     <Compile Include="Models\Sudoku\Square.cs" />
     <Compile Include="Models\Sudoku\Sudoku.cs" />

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SudokuSolver.Models
 {
-    public abstract class Field<T>
+    public interface IField<T>
     {
-        public T Value { get; set; }
+        T Value { get; set; }
+        void Update(T value);
     }
 }

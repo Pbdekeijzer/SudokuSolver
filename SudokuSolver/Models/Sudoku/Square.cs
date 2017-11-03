@@ -11,7 +11,7 @@ namespace SudokuSolver.Models
     {
         public Square()
         {
-            Fields = new List<Field<int>>();
+            Fields = new List<IField<int>>();
         }
 
         public void Print()

@@ -11,12 +11,12 @@ namespace SudokuSolver.Models
     {
         public Column()
         {
-            Fields = new List<Field<int>>();
+            Fields = new List<IField<int>>();
         }
 
         public void Print()
         {
-            foreach(Field<int> field in Fields)
+            foreach(IField<int> field in Fields)
             {
                 Console.WriteLine($"{field.Value}, ");
             }
