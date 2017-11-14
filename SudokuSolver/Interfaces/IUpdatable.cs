@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SudokuSolver.Interfaces
 {
-    public interface IField<T>
+    public interface IUpdatable<T>
     {
-        T Value { get; set; }
-    }
+        void Update(T value);
+    };
+
 }

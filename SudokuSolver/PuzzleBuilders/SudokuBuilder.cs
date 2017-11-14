@@ -11,7 +11,7 @@ namespace SudokuSolver.PuzzleBuilders
     {
         public static Sudoku Build(IEnumerable<int> sudoku)
         {
-            var fields = new List<SudokuField>();
+            var fields = new SudokuField[81];
             var columnsArray = new SudokuBlock[9];
             var rowsArray = new SudokuBlock[9];
             var squaresArray = new SudokuBlock[9];
@@ -32,29 +32,25 @@ namespace SudokuSolver.PuzzleBuilders
                     PossibleNumbers = (number != 0) ? new List<int> { number } : new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                 };
 
-                fields.Add(field);
+                fields[i] = field;
 
                 rowsArray[rowIndex].Fields.Add(field);
                 columnsArray[columnIndex].Fields.Add(field);
                 squaresArray[squareIndex].Fields.Add(field);
             }
 
-            List<SudokuBlock> rows = rowsArray.ToList();
-            List<SudokuBlock> columns = columnsArray.ToList();
-            List<SudokuBlock> squares = squaresArray.ToList();
-
             return new Sudoku
             {
-                Rows = rows,
-                Columns = columns,
-                Squares = squares,
+                Rows = rowsArray,
+                Columns = columnsArray,
+                Squares = squaresArray,
                 Fields = fields,
             };
         }
 
         public static Sudoku Build(int[][] matrix)
         {
-            var fields = new List<SudokuField>();
+            var fields = new SudokuField[81];
             var columnsArray = new SudokuBlock[9];
             var rowsArray = new SudokuBlock[9];
             var squaresArray = new SudokuBlock[9];
@@ -62,6 +58,8 @@ namespace SudokuSolver.PuzzleBuilders
             Initialize<Column>(columnsArray);
             Initialize<Row>(rowsArray);
             Initialize<Square>(squaresArray);
+
+            int fieldcount = 0;
 
             for (int i = 0; i < 9; i++)
             {
@@ -75,49 +73,53 @@ namespace SudokuSolver.PuzzleBuilders
                         PossibleNumbers = (number != 0) ? new List<int> { number } : new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 },
                     };
 
-                    fields.Add(field);
+                    fields[fieldcount] = field;
 
                     rowsArray[i].Fields.Add(field);
                     columnsArray[j].Fields.Add(field);
                     squaresArray[squareIndex].Fields.Add(field);
+
+                    fieldcount++;
                 }
             }
 
-            List<SudokuBlock> rows = rowsArray.ToList();
-            List<SudokuBlock> columns = columnsArray.ToList();
-            List<SudokuBlock> squares = squaresArray.ToList();
-
             return new Sudoku
             {
-                Rows = rows,
-                Columns = columns,
-                Squares = squares,
+                Rows = rowsArray,
+                Columns = columnsArray,
+                Squares = squaresArray,
                 Fields = fields,
             };
         }
 
-        private static int GetSquareIndex(int r, int c)
+        // Squares (block of 3x3 fields) in a sudoku are indexed from left to right, top to bottom, like so:
+        // 1, 2, 3
+        // 4, 5, 6
+        // 7, 8, 9
+        // By this logic, this method decides which square a field is in.
+        private static int GetSquareIndex(int row, int col)
         {
             int squareIndex;
 
-            if (r < 3)
-            {
-                //if (c < 3), then..., else if..., then..., else...
-                squareIndex = (c < 3) ? 0 : (c >= 3 && c < 6) ? 1 : 2;
+            if (row < 3)
+            {                
+                squareIndex = (col < 3) ? 0 : (col >= 3 && col < 6) ? 1 : 2;
             }
 
-            else if (r >= 3 && r < 6)
+            else if (row >= 3 && row < 6)
             {
-                squareIndex = (c < 3) ? 3 : (c >= 3 && c < 6) ? 4 : 5;
+                squareIndex = (col < 3) ? 3 : (col >= 3 && col < 6) ? 4 : 5;
             }
             else
             {
-                squareIndex = (c < 3) ? 6 : (c >= 3 && c < 6) ? 7 : 8;
+                squareIndex = (col < 3) ? 6 : (col >= 3 && col < 6) ? 7 : 8;
             }
 
             return squareIndex;
         }
 
+        // Initializes an empty object for each index in an array. 
+        // This way we can assign properties of objects by index.
         private static void Initialize<T>(object[] arrayOfObjects) where T : new()
         {
             for (int i = 0; i < arrayOfObjects.Count(); i++)

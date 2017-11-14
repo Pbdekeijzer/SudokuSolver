@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ISolvable.cs" />
+    <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\Sudoku\Column.cs" />
     <Compile Include="Interfaces\IPrintable.cs" />

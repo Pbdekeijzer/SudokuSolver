@@ -9,10 +9,13 @@ namespace SudokuSolver.Models
 {
     public class Sudoku : IPrintable, ISolvable
     {
-        public List<SudokuBlock> Squares { get; set; }
-        public List<SudokuBlock> Rows { get; set; }
-        public List<SudokuBlock> Columns { get; set; }
-        public List<SudokuField> Fields { get; set; }
+        public SudokuBlock[] Squares { get; set; }
+
+        public SudokuBlock[] Rows { get; set; }
+
+        public SudokuBlock[] Columns { get; set; }
+
+        public SudokuField[] Fields { get; set; }
 
         public void Print()
         {

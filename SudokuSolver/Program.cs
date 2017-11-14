@@ -13,6 +13,8 @@ namespace SudokuSolver
     {
         static void Main(string[] args)
         {
+
+            // Testing a sudoku
             var matrix = new int[][] 
                 {
                     new int[] {3,0,0,6,0,2,0,0,5},
